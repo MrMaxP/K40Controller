@@ -14,15 +14,17 @@ namespace K40Controller
 		public double X, Y, Z, E;
 	}
 
-    class Job
-    {
-		List<string> lines;
-		List<Command> commands;
+	class Job
+	{
+		List<string> lines = null;
+		List<Command> commands = null;
+		List<Path> paths = null;
 
-		public void Parse(string filename)
+		public void Parse( string filename )
 		{
 			lines = new List<string>();
 			commands = new List<Command>();
+			paths = new List<Path>();
 
 			string line;
 			int discardedLines = 0;
@@ -31,45 +33,47 @@ namespace K40Controller
 			commands.Clear();
 
 			uint lineNum = 0;
-			Regex gcodeRegEx = new Regex(@"([NGXYZEIJKLF])([-+]?[0-9.]+)");
+			Regex gcodeRegEx = new Regex( @"([NGXYZEIJKLF])([-+]?[0-9.]+)" );
 
-			using (StreamReader reader = new StreamReader(filename))
+			Command lastCom = new Command();
+
+			using( StreamReader reader = new StreamReader( filename ) )
 			{
-				while (!reader.EndOfStream)
+				while( !reader.EndOfStream )
 				{
-
 					line = reader.ReadLine();
-					lines.Add(line);
+					lines.Add( line );
 
-					if (line == string.Empty || line.StartsWith(";"))
+					if( line == string.Empty || line.StartsWith( ";" ) )
 					{
 						discardedLines++;
 
 						continue;
 					}
 
-					MatchCollection m = gcodeRegEx.Matches(line);
+					MatchCollection m = gcodeRegEx.Matches( line );
 
-					if(m.Count == 0)
+					if( m.Count == 0 )
 					{
 						// Comment or blank line
 						continue;
 					}
 
 					Command com = new Command();
+					com = new Command( lastCom );					// Init with current variables (i.e. last command)
 					com.line = lineNum;
 
-					foreach(Match match in m)
+					foreach( Match match in m )
 					{
-						char c = match.Groups[1].ToString()[0];
+						char c = match.Groups[ 1 ].ToString()[ 0 ];
 
 						double temp;
-						if (!double.TryParse(match.Groups[2].ToString(), out temp))
+						if( !double.TryParse( match.Groups[ 2 ].ToString(), out temp ) )
 						{
 							// Error
 						}
 
-						switch (c)
+						switch( c )
 						{
 							case 'N': com.block = (uint)temp; break;
 
@@ -89,91 +93,180 @@ namespace K40Controller
 						}
 					}
 
-					commands.Add(com);
+					commands.Add( com );
+					lastCom = com;
 
-					//Console.Out.WriteLine(com.ToString());
+					Console.Out.WriteLine( com.ToString() );
 				}
 
 				lineNum++;
 			}
+
+			Group();
 		}
 
-		private void DrawLine(Graphics dc, Pen pen, Pos pos1, Pos pos2)
+		private void Group()
+		{
+			// Attempt to group G commands by paths
+
+			bool inPath = false;
+			Path currentPath = new Path();
+
+			foreach( Command com in commands )
+			{
+				{
+					if( com.type == 'G' )
+					{
+						// Move
+						if( com.code == 0 )
+						{
+							if( inPath )
+							{
+								currentPath.End();
+								paths.Add( currentPath );
+								currentPath = new Path();
+							}
+							currentPath.Add( com );
+							inPath = false;
+						}
+
+						// Move cut line
+						if( com.code == 1 )
+						{
+							if( !inPath )
+							{
+								currentPath.End();
+								paths.Add( currentPath );
+								currentPath = new Path();
+							}
+							currentPath.Add( com );
+							inPath = true;
+						}
+
+						// Move cut arc CW
+						if( com.code == 2 )
+						{
+							if( !inPath )
+							{
+								currentPath.End();
+								paths.Add( currentPath );
+								currentPath = new Path();
+							}
+							currentPath.Add( com );
+							inPath = true;
+						}
+
+						// Move cut arc CCW
+						if( com.code == 3 )
+						{
+							if( !inPath )
+							{
+								currentPath.End();
+								paths.Add( currentPath );
+								currentPath = new Path();
+							}
+							currentPath.Add( com );
+							inPath = true;
+						}
+					}
+				}
+			}
+
+		}
+
+		private void DrawLine( Graphics dc, Pen pen, Pos pos1, Pos pos2 )
 		{
 			Point pt1 = new Point();
 			Point pt2 = new Point();
-			pt1.X = (int)(pos1.X * Settings.Scale);
-			pt1.Y = (int)(pos1.Y * Settings.Scale);
-			pt2.X = (int)(pos2.X * Settings.Scale);
-			pt2.Y = (int)(pos2.Y * Settings.Scale);
+			pt1.X = (int)( pos1.X * Settings.Scale );
+			pt1.Y = (int)( pos1.Y * Settings.Scale );
+			pt2.X = (int)( pos2.X * Settings.Scale );
+			pt2.Y = (int)( pos2.Y * Settings.Scale );
 
-			dc.DrawLine(pen, pt1, pt2);
+			dc.DrawLine( pen, pt1, pt2 );
 		}
 
-		private void DrawLArc(Graphics dc, Pen pen, Pos pos1, Pos pos2, double I, double J)
+		private void DrawLArc( Graphics dc, Pen pen, Pos pos1, Pos pos2, double I, double J )
 		{
 			Point pt1 = new Point();
 			Point pt2 = new Point();
-			pt1.X = (int)(pos1.X * Settings.Scale);
-			pt1.Y = (int)(pos1.Y * Settings.Scale);
-			pt2.X = (int)(pos2.X * Settings.Scale);
-			pt2.Y = (int)(pos2.Y * Settings.Scale);
+			pt1.X = (int)( pos1.X * Settings.Scale );
+			pt1.Y = (int)( pos1.Y * Settings.Scale );
+			pt2.X = (int)( pos2.X * Settings.Scale );
+			pt2.Y = (int)( pos2.Y * Settings.Scale );
 			Rectangle rect = new Rectangle();
 			rect.X = pt1.X;
 			rect.Y = pt1.Y;
 			rect.Width = pt2.X - pt1.X;
 			rect.Height = pt2.Y - pt1.Y;
-			dc.DrawArc(pen, rect, (float)I, (float)J);
+			dc.DrawArc( pen, rect, (float)I, (float)J );
 		}
 
-		public void Draw(Graphics dc)
+		public void Draw( Graphics dc )
 		{
-			Pen penCut = new Pen(Color.White, 1);
-			Pen penMove = new Pen(Color.Blue, 1);
+			if( commands == null )
+			{
+				return;
+			}
+
+			Pen penCut = new Pen( Color.White, 1 );
+			Pen penMove = new Pen( Color.Blue, 1 );
 
 			Pos pos = new Pos();
 
-			foreach (Command com in commands)
+			foreach( Command com in commands )
 			{
-				if(com.type == 'G')
+				if( com.type == 'G' )
 				{
 					// Move
-					if(com.code == 0)
+					if( com.code == 0 )
 					{
 						Pos posDest = new Pos();
 						posDest.X = com.X;
 						posDest.Y = com.Y;
-						DrawLine(dc, penMove, pos, posDest);
+						if( K40Controller.Properties.Settings.Default.drawMoves )
+						{
+							DrawLine( dc, penMove, pos, posDest );
+						}
 						pos = posDest;
 					}
 
 					// Move cut line
-					if (com.code == 1)
+					if( com.code == 1 )
 					{
 						Pos posDest = new Pos();
 						posDest.X = com.X;
 						posDest.Y = com.Y;
-						DrawLine(dc, penCut, pos, posDest);
+						if( K40Controller.Properties.Settings.Default.drawCuts )
+						{
+							DrawLine( dc, penCut, pos, posDest );
+						}
 						pos = posDest;
 					}
 
 					// Move cut arc CW
-					if (com.code == 2)
+					if( com.code == 2 )
 					{
 						Pos posDest = new Pos();
 						posDest.X = com.X;
 						posDest.Y = com.Y;
-						DrawLine(dc, penCut, pos, posDest);
+						if( K40Controller.Properties.Settings.Default.drawCuts )
+						{
+							DrawLine( dc, penCut, pos, posDest );
+						}
 						pos = posDest;
 					}
 
 					// Move cut arc CCW
-					if (com.code == 3)
+					if( com.code == 3 )
 					{
 						Pos posDest = new Pos();
 						posDest.X = com.X;
 						posDest.Y = com.Y;
-						DrawLine(dc, penCut, posDest, pos);
+						if( K40Controller.Properties.Settings.Default.drawCuts )
+						{
+							DrawLine( dc, penCut, posDest, pos );
+						}
 						pos = posDest;
 					}
 				}

@@ -28,13 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.consoleWindow = new System.Windows.Forms.RichTextBox();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.rulerControlY = new Lyquidity.UtilityLibrary.Controls.RulerControl();
 			this.graphPanel = new System.Windows.Forms.Panel();
+			this.rulerControlX = new Lyquidity.UtilityLibrary.Controls.RulerControl();
+			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+			this.OpenButton = new System.Windows.Forms.ToolStripButton();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
+			this.menuStrip1.SuspendLayout();
+			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// consoleWindow
@@ -42,9 +52,9 @@
 			this.consoleWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.consoleWindow.Location = new System.Drawing.Point(3, 3);
+			this.consoleWindow.Location = new System.Drawing.Point(2, 236);
 			this.consoleWindow.Name = "consoleWindow";
-			this.consoleWindow.Size = new System.Drawing.Size(197, 536);
+			this.consoleWindow.Size = new System.Drawing.Size(253, 359);
 			this.consoleWindow.TabIndex = 0;
 			this.consoleWindow.Text = "";
 			// 
@@ -53,37 +63,137 @@
 			this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.splitContainer1.Location = new System.Drawing.Point(12, 12);
+			this.splitContainer1.Location = new System.Drawing.Point(12, 56);
 			this.splitContainer1.Name = "splitContainer1";
 			// 
 			// splitContainer1.Panel1
 			// 
+			this.splitContainer1.Panel1.Controls.Add(this.rulerControlY);
 			this.splitContainer1.Panel1.Controls.Add(this.graphPanel);
+			this.splitContainer1.Panel1.Controls.Add(this.rulerControlX);
+			this.splitContainer1.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel1_Paint);
 			// 
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.consoleWindow);
-			this.splitContainer1.Size = new System.Drawing.Size(720, 542);
-			this.splitContainer1.SplitterDistance = 516;
+			this.splitContainer1.Size = new System.Drawing.Size(924, 600);
+			this.splitContainer1.SplitterDistance = 662;
 			this.splitContainer1.TabIndex = 1;
+			// 
+			// rulerControlY
+			// 
+			this.rulerControlY.ActualSize = true;
+			this.rulerControlY.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+			this.rulerControlY.DivisionMarkFactor = 5;
+			this.rulerControlY.Divisions = 10;
+			this.rulerControlY.ForeColor = System.Drawing.Color.Black;
+			this.rulerControlY.Location = new System.Drawing.Point(0, 25);
+			this.rulerControlY.MajorInterval = 100;
+			this.rulerControlY.MiddleMarkFactor = 3;
+			this.rulerControlY.MouseTrackingOn = false;
+			this.rulerControlY.Name = "rulerControlY";
+			this.rulerControlY.Orientation = Lyquidity.UtilityLibrary.Controls.enumOrientation.orVertical;
+			this.rulerControlY.RulerAlignment = Lyquidity.UtilityLibrary.Controls.enumRulerAlignment.raBottomOrRight;
+			this.rulerControlY.ScaleMode = Lyquidity.UtilityLibrary.Controls.enumScaleMode.smPoints;
+			this.rulerControlY.Size = new System.Drawing.Size(26, 572);
+			this.rulerControlY.StartValue = 0D;
+			this.rulerControlY.TabIndex = 1;
+			this.rulerControlY.Text = "rulerControlY";
+			this.rulerControlY.VerticalNumbers = true;
+			this.rulerControlY.ZoomFactor = 1D;
 			// 
 			// graphPanel
 			// 
 			this.graphPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.graphPanel.Location = new System.Drawing.Point(3, 3);
+			this.graphPanel.BackColor = System.Drawing.Color.Black;
+			this.graphPanel.Location = new System.Drawing.Point(25, 25);
 			this.graphPanel.Name = "graphPanel";
-			this.graphPanel.Size = new System.Drawing.Size(510, 536);
+			this.graphPanel.Size = new System.Drawing.Size(636, 570);
 			this.graphPanel.TabIndex = 0;
 			this.graphPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.graphPanel_Paint);
+			this.graphPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.graphPanel_MouseWheel);
+			// 
+			// rulerControlX
+			// 
+			this.rulerControlX.ActualSize = true;
+			this.rulerControlX.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.rulerControlX.DivisionMarkFactor = 5;
+			this.rulerControlX.Divisions = 10;
+			this.rulerControlX.ForeColor = System.Drawing.Color.Black;
+			this.rulerControlX.Location = new System.Drawing.Point(25, 0);
+			this.rulerControlX.MajorInterval = 100;
+			this.rulerControlX.MiddleMarkFactor = 3;
+			this.rulerControlX.MouseTrackingOn = false;
+			this.rulerControlX.Name = "rulerControlX";
+			this.rulerControlX.Orientation = Lyquidity.UtilityLibrary.Controls.enumOrientation.orHorizontal;
+			this.rulerControlX.RulerAlignment = Lyquidity.UtilityLibrary.Controls.enumRulerAlignment.raBottomOrRight;
+			this.rulerControlX.ScaleMode = Lyquidity.UtilityLibrary.Controls.enumScaleMode.smPoints;
+			this.rulerControlX.Size = new System.Drawing.Size(636, 26);
+			this.rulerControlX.StartValue = 0D;
+			this.rulerControlX.TabIndex = 0;
+			this.rulerControlX.Text = "rulerControlX";
+			this.rulerControlX.VerticalNumbers = true;
+			this.rulerControlX.ZoomFactor = 1D;
+			// 
+			// menuStrip1
+			// 
+			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+			this.menuStrip1.Name = "menuStrip1";
+			this.menuStrip1.Size = new System.Drawing.Size(948, 24);
+			this.menuStrip1.TabIndex = 2;
+			this.menuStrip1.Text = "menuStrip1";
+			// 
+			// fileToolStripMenuItem
+			// 
+			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem});
+			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+			this.fileToolStripMenuItem.Text = "File";
+			// 
+			// openToolStripMenuItem
+			// 
+			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+			this.openToolStripMenuItem.Text = "Open";
+			this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+			// 
+			// toolStrip1
+			// 
+			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenButton});
+			this.toolStrip1.Location = new System.Drawing.Point(0, 24);
+			this.toolStrip1.Name = "toolStrip1";
+			this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+			this.toolStrip1.Size = new System.Drawing.Size(948, 25);
+			this.toolStrip1.TabIndex = 3;
+			this.toolStrip1.Text = "toolStrip1";
+			// 
+			// OpenButton
+			// 
+			this.OpenButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.OpenButton.Image = ((System.Drawing.Image)(resources.GetObject("OpenButton.Image")));
+			this.OpenButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.OpenButton.Name = "OpenButton";
+			this.OpenButton.Size = new System.Drawing.Size(23, 22);
+			this.OpenButton.Text = "Open";
+			this.OpenButton.Click += new System.EventHandler(this.toolStripButton1_Click);
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(744, 566);
+			this.ClientSize = new System.Drawing.Size(948, 663);
+			this.Controls.Add(this.toolStrip1);
 			this.Controls.Add(this.splitContainer1);
+			this.Controls.Add(this.menuStrip1);
+			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "MainForm";
 			this.Text = "K40 Controller";
 			this.Load += new System.EventHandler(this.Form1_Load);
@@ -91,7 +201,12 @@
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
+			this.menuStrip1.ResumeLayout(false);
+			this.menuStrip1.PerformLayout();
+			this.toolStrip1.ResumeLayout(false);
+			this.toolStrip1.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
         }
 
@@ -100,6 +215,13 @@
 		private System.Windows.Forms.RichTextBox consoleWindow;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.Panel graphPanel;
+		private System.Windows.Forms.MenuStrip menuStrip1;
+		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+		private System.Windows.Forms.ToolStrip toolStrip1;
+		private System.Windows.Forms.ToolStripButton OpenButton;
+		private Lyquidity.UtilityLibrary.Controls.RulerControl rulerControlY;
+		private Lyquidity.UtilityLibrary.Controls.RulerControl rulerControlX;
     }
 }
 

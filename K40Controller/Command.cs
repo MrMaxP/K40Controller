@@ -15,6 +15,11 @@ namespace K40Controller
 			_val = double.MaxValue;
 		}
 
+		public Value(Value c)
+		{
+			_val = c._val;
+		}
+
 		public bool isSet()
 		{
 			return (_val != double.MaxValue);
@@ -70,6 +75,25 @@ namespace K40Controller
 			L = new Value();
 			F = new Value();
 			S = new Value();
+		}
+
+		public Command(Command clone)
+		{
+			line = 0;
+			type = clone.type;
+			code = clone.code;
+			block = clone.block;
+
+			X = new Value(clone.X);
+			Y = new Value(clone.Y);
+			Z = new Value(clone.Z);
+			E = new Value(clone.E);
+			I = new Value(clone.I);
+			J = new Value(clone.J);
+			K = new Value(clone.K);
+			L = new Value(clone.L);
+			F = new Value(clone.F);
+			S = new Value(clone.S);
 		}
 
 		public override string ToString()

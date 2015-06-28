@@ -17,13 +17,12 @@ namespace K40Controller
         public MainForm()
         {
             InitializeComponent();
+			this.MouseWheel += new MouseEventHandler( graphPanel_MouseWheel );
 			job = new Job();
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-			job.Parse(@"C:\Users\Stuart\Documents\GitHub\K40Controller\HogwartsPlaceCard.g");
 		}
 
         protected override void OnPaint(PaintEventArgs e)
@@ -36,6 +35,36 @@ namespace K40Controller
 			dc.FillRectangle(new SolidBrush(Color.Black), dc.ClipBounds);
 			job.Draw(dc);
 			base.OnPaint(e);
+		}
+
+		private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void toolStripButton1_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void openToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			OpenFileDialog theDialog = new OpenFileDialog();
+			theDialog.Title = "Open G-Code File";
+			theDialog.Filter = "G-files|*.g|All Files|*.*";
+			theDialog.InitialDirectory = @"";
+			if (theDialog.ShowDialog() == DialogResult.OK)
+			{
+				job.Parse(theDialog.FileName.ToString());
+				graphPanel.Invalidate();
+			}
+		}
+
+		private void graphPanel_MouseWheel( object sender, MouseEventArgs e )
+		{
+			float delta = (float)e.Delta;
+			Settings.Scale += delta / 100.0f;
+			graphPanel.Invalidate();
 		}
     }
 }
