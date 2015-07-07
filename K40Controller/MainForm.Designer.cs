@@ -39,6 +39,7 @@
 			this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.OpenButton = new System.Windows.Forms.ToolStripButton();
+			this.Test1 = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -75,6 +76,7 @@
 			// 
 			// splitContainer1.Panel2
 			// 
+			this.splitContainer1.Panel2.Controls.Add(this.Test1);
 			this.splitContainer1.Panel2.Controls.Add(this.consoleWindow);
 			this.splitContainer1.Size = new System.Drawing.Size(924, 600);
 			this.splitContainer1.SplitterDistance = 662;
@@ -185,6 +187,16 @@
 			this.OpenButton.Text = "Open";
 			this.OpenButton.Click += new System.EventHandler(this.toolStripButton1_Click);
 			// 
+			// Test1
+			// 
+			this.Test1.Location = new System.Drawing.Point(4, 4);
+			this.Test1.Name = "Test1";
+			this.Test1.Size = new System.Drawing.Size(75, 23);
+			this.Test1.TabIndex = 1;
+			this.Test1.Text = "Test";
+			this.Test1.UseVisualStyleBackColor = true;
+			this.Test1.Click += new System.EventHandler(this.Test1_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -222,6 +234,7 @@
 		private System.Windows.Forms.ToolStripButton OpenButton;
 		private Lyquidity.UtilityLibrary.Controls.RulerControl rulerControlY;
 		private Lyquidity.UtilityLibrary.Controls.RulerControl rulerControlX;
+		private System.Windows.Forms.Button Test1;
     }
 }
 

@@ -13,12 +13,15 @@ namespace K40Controller
     public partial class MainForm : Form
     {
 		Job job;
+		Comms comms;
 
         public MainForm()
         {
             InitializeComponent();
 			this.MouseWheel += new MouseEventHandler( graphPanel_MouseWheel );
 			job = new Job();
+			comms = new Comms();
+			comms.Connect();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -44,7 +47,7 @@ namespace K40Controller
 
 		private void toolStripButton1_Click(object sender, EventArgs e)
 		{
-
+			comms.Send( "M114" );
 		}
 
 		private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -65,6 +68,11 @@ namespace K40Controller
 			float delta = (float)e.Delta;
 			Settings.Scale += delta / 100.0f;
 			graphPanel.Invalidate();
+		}
+
+		private void Test1_Click( object sender, EventArgs e )
+		{
+			comms.Send( "M114" );
 		}
     }
 }
