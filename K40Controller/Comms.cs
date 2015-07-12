@@ -9,23 +9,61 @@ namespace K40Controller
 {
 	class Comms
 	{
-		SerialPort port = null;
+		private SerialPort port = null;
+		public string[] portList;
+		SerialOutput outputToConsole = null;
+
+		public Comms( SerialOutput output )
+		{
+			outputToConsole = output;
+		}
 
 		private void DataReceivedHandler( object sender, System.IO.Ports.SerialDataReceivedEventArgs e )
 		{
 			SerialPort sp = (SerialPort)sender;
 			string retString = sp.ReadExisting();
-			Console.Write( retString );
+			if( outputToConsole != null )
+			{
+				outputToConsole( retString );
+			}
 		}
 
-		public bool Connect()
+		public bool Enumerate()
 		{
-			port = new SerialPort( "COM6", 115200, Parity.None, 8, StopBits.One ); //Create the serial port
-			port.DtrEnable = true;   //enables the Data Terminal Ready (DTR) signal during serial communication (Handshaking)
-			port.DataReceived += new SerialDataReceivedEventHandler( DataReceivedHandler );
-			port.Open();             //Open the port
+			portList = SerialPort.GetPortNames();
 
 			return true;
+		}
+
+		public bool Connect( string portName )
+		{
+			try
+			{
+				if( port == null )
+				{
+					port = new SerialPort( portName, 115200, Parity.None, 8, StopBits.One ); //Create the serial port
+					port.DtrEnable = true;   //enables the Data Terminal Ready (DTR) signal during serial communication (Handshaking)
+					port.DataReceived += new SerialDataReceivedEventHandler( DataReceivedHandler );
+					port.Open();             //Open the port
+				}
+			}
+			catch( Exception ex )
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		public bool Disconnect()
+		{
+			if( port != null )
+			{
+				port.Close();
+				port = null;
+				return true;
+			}
+			return false;
 		}
 
 		public bool Send( string send )

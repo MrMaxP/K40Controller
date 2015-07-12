@@ -8,20 +8,42 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+public delegate void SerialOutput( string line );
+
 namespace K40Controller
 {
     public partial class MainForm : Form
     {
 		Job job;
 		Comms comms;
+		bool autoconnect;
+		string lastConnectedPort;
+		bool connected = false;
+
+		void OutputConsole( string  line )
+		{
+			consoleWindow.AppendText( line );
+		}
 
         public MainForm()
         {
             InitializeComponent();
+
+			MainForm.CheckForIllegalCrossThreadCalls = false;
+
 			this.MouseWheel += new MouseEventHandler( graphPanel_MouseWheel );
 			job = new Job();
-			comms = new Comms();
-			comms.Connect();
+			comms = new Comms( new SerialOutput( OutputConsole ) );
+			comms.Enumerate();
+
+			listBoxConnect.Items.Clear();
+			foreach( string port in comms.portList )
+			{	listBoxConnect.Items.Add( port );}
+
+//			if(autoconnect)
+//			{
+//				comms.Connect();
+//			}
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -73,6 +95,33 @@ namespace K40Controller
 		private void Test1_Click( object sender, EventArgs e )
 		{
 			comms.Send( "M114" );
+		}
+
+		private void buttonConnect_Click( object sender, EventArgs e )
+		{
+			if( !connected )
+			{
+				if( comms.Connect( listBoxConnect.Items[ listBoxConnect.TopIndex ].ToString() ) )
+				{
+					lastConnectedPort = listBoxConnect.Items[ listBoxConnect.TopIndex ].ToString();
+					connected = true;
+					buttonConnect.Text = "Disconnect";
+				}
+			}
+			else
+			{
+				if( comms.Disconnect() )
+				{
+					connected = false;
+					buttonConnect.Text = "Connect";
+				}
+			}
+		}
+
+		private void consoleWindow_TextChanged( object sender, EventArgs e )
+		{
+			consoleWindow.SelectionStart = consoleWindow.Text.Length; //Set the current caret position at the end
+			consoleWindow.ScrollToCaret(); //Now scroll it automatically
 		}
     }
 }

@@ -28,24 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.consoleWindow = new System.Windows.Forms.RichTextBox();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.rulerControlY = new Lyquidity.UtilityLibrary.Controls.RulerControl();
 			this.graphPanel = new System.Windows.Forms.Panel();
 			this.rulerControlX = new Lyquidity.UtilityLibrary.Controls.RulerControl();
+			this.Test1 = new System.Windows.Forms.Button();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-			this.OpenButton = new System.Windows.Forms.ToolStripButton();
-			this.Test1 = new System.Windows.Forms.Button();
+			this.listBoxConnect = new System.Windows.Forms.ListBox();
+			this.buttonConnect = new System.Windows.Forms.Button();
+			this.buttonPrint = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
-			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// consoleWindow
@@ -53,11 +53,12 @@
 			this.consoleWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.consoleWindow.Location = new System.Drawing.Point(2, 236);
+			this.consoleWindow.Location = new System.Drawing.Point(5, 236);
 			this.consoleWindow.Name = "consoleWindow";
 			this.consoleWindow.Size = new System.Drawing.Size(253, 359);
 			this.consoleWindow.TabIndex = 0;
 			this.consoleWindow.Text = "";
+			this.consoleWindow.TextChanged += new System.EventHandler(this.consoleWindow_TextChanged);
 			// 
 			// splitContainer1
 			// 
@@ -141,6 +142,16 @@
 			this.rulerControlX.VerticalNumbers = true;
 			this.rulerControlX.ZoomFactor = 1D;
 			// 
+			// Test1
+			// 
+			this.Test1.Location = new System.Drawing.Point(4, 4);
+			this.Test1.Name = "Test1";
+			this.Test1.Size = new System.Drawing.Size(75, 23);
+			this.Test1.TabIndex = 1;
+			this.Test1.Text = "Test";
+			this.Test1.UseVisualStyleBackColor = true;
+			this.Test1.Click += new System.EventHandler(this.Test1_Click);
+			// 
 			// menuStrip1
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -168,8 +179,6 @@
 			// 
 			// toolStrip1
 			// 
-			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.OpenButton});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 24);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -177,31 +186,43 @@
 			this.toolStrip1.TabIndex = 3;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
-			// OpenButton
+			// listBoxConnect
 			// 
-			this.OpenButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.OpenButton.Image = ((System.Drawing.Image)(resources.GetObject("OpenButton.Image")));
-			this.OpenButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.OpenButton.Name = "OpenButton";
-			this.OpenButton.Size = new System.Drawing.Size(23, 22);
-			this.OpenButton.Text = "Open";
-			this.OpenButton.Click += new System.EventHandler(this.toolStripButton1_Click);
+			this.listBoxConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.listBoxConnect.FormattingEnabled = true;
+			this.listBoxConnect.Location = new System.Drawing.Point(781, 24);
+			this.listBoxConnect.Name = "listBoxConnect";
+			this.listBoxConnect.Size = new System.Drawing.Size(155, 17);
+			this.listBoxConnect.TabIndex = 4;
 			// 
-			// Test1
+			// buttonConnect
 			// 
-			this.Test1.Location = new System.Drawing.Point(4, 4);
-			this.Test1.Name = "Test1";
-			this.Test1.Size = new System.Drawing.Size(75, 23);
-			this.Test1.TabIndex = 1;
-			this.Test1.Text = "Test";
-			this.Test1.UseVisualStyleBackColor = true;
-			this.Test1.Click += new System.EventHandler(this.Test1_Click);
+			this.buttonConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonConnect.Location = new System.Drawing.Point(700, 24);
+			this.buttonConnect.Name = "buttonConnect";
+			this.buttonConnect.Size = new System.Drawing.Size(75, 23);
+			this.buttonConnect.TabIndex = 5;
+			this.buttonConnect.Text = "Connect";
+			this.buttonConnect.UseVisualStyleBackColor = true;
+			this.buttonConnect.Click += new System.EventHandler(this.buttonConnect_Click);
+			// 
+			// buttonPrint
+			// 
+			this.buttonPrint.Location = new System.Drawing.Point(12, 24);
+			this.buttonPrint.Name = "buttonPrint";
+			this.buttonPrint.Size = new System.Drawing.Size(75, 23);
+			this.buttonPrint.TabIndex = 6;
+			this.buttonPrint.Text = "Print";
+			this.buttonPrint.UseVisualStyleBackColor = true;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(948, 663);
+			this.Controls.Add(this.buttonPrint);
+			this.Controls.Add(this.buttonConnect);
+			this.Controls.Add(this.listBoxConnect);
 			this.Controls.Add(this.toolStrip1);
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.menuStrip1);
@@ -215,8 +236,6 @@
 			this.splitContainer1.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
-			this.toolStrip1.ResumeLayout(false);
-			this.toolStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -231,10 +250,12 @@
 		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
 		private System.Windows.Forms.ToolStrip toolStrip1;
-		private System.Windows.Forms.ToolStripButton OpenButton;
 		private Lyquidity.UtilityLibrary.Controls.RulerControl rulerControlY;
 		private Lyquidity.UtilityLibrary.Controls.RulerControl rulerControlX;
 		private System.Windows.Forms.Button Test1;
+		private System.Windows.Forms.ListBox listBoxConnect;
+		private System.Windows.Forms.Button buttonConnect;
+		private System.Windows.Forms.Button buttonPrint;
     }
 }
 
