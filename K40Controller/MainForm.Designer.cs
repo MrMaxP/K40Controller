@@ -41,11 +41,17 @@
 			this.listBoxConnect = new System.Windows.Forms.ListBox();
 			this.buttonConnect = new System.Windows.Forms.Button();
 			this.buttonPrint = new System.Windows.Forms.Button();
+			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+			this.GCodeWindow = new System.Windows.Forms.RichTextBox();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+			this.splitContainer2.Panel1.SuspendLayout();
+			this.splitContainer2.Panel2.SuspendLayout();
+			this.splitContainer2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// consoleWindow
@@ -53,9 +59,9 @@
 			this.consoleWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.consoleWindow.Location = new System.Drawing.Point(5, 236);
+			this.consoleWindow.Location = new System.Drawing.Point(5, 33);
 			this.consoleWindow.Name = "consoleWindow";
-			this.consoleWindow.Size = new System.Drawing.Size(253, 359);
+			this.consoleWindow.Size = new System.Drawing.Size(253, 562);
 			this.consoleWindow.TabIndex = 0;
 			this.consoleWindow.Text = "";
 			this.consoleWindow.TextChanged += new System.EventHandler(this.consoleWindow_TextChanged);
@@ -70,9 +76,7 @@
 			// 
 			// splitContainer1.Panel1
 			// 
-			this.splitContainer1.Panel1.Controls.Add(this.rulerControlY);
-			this.splitContainer1.Panel1.Controls.Add(this.graphPanel);
-			this.splitContainer1.Panel1.Controls.Add(this.rulerControlX);
+			this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
 			this.splitContainer1.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel1_Paint);
 			// 
 			// splitContainer1.Panel2
@@ -99,7 +103,7 @@
 			this.rulerControlY.Orientation = Lyquidity.UtilityLibrary.Controls.enumOrientation.orVertical;
 			this.rulerControlY.RulerAlignment = Lyquidity.UtilityLibrary.Controls.enumRulerAlignment.raBottomOrRight;
 			this.rulerControlY.ScaleMode = Lyquidity.UtilityLibrary.Controls.enumScaleMode.smPoints;
-			this.rulerControlY.Size = new System.Drawing.Size(26, 572);
+			this.rulerControlY.Size = new System.Drawing.Size(26, 434);
 			this.rulerControlY.StartValue = 0D;
 			this.rulerControlY.TabIndex = 1;
 			this.rulerControlY.Text = "rulerControlY";
@@ -114,7 +118,7 @@
 			this.graphPanel.BackColor = System.Drawing.Color.Black;
 			this.graphPanel.Location = new System.Drawing.Point(25, 25);
 			this.graphPanel.Name = "graphPanel";
-			this.graphPanel.Size = new System.Drawing.Size(636, 570);
+			this.graphPanel.Size = new System.Drawing.Size(637, 423);
 			this.graphPanel.TabIndex = 0;
 			this.graphPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.graphPanel_Paint);
 			this.graphPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.graphPanel_MouseWheel);
@@ -135,7 +139,7 @@
 			this.rulerControlX.Orientation = Lyquidity.UtilityLibrary.Controls.enumOrientation.orHorizontal;
 			this.rulerControlX.RulerAlignment = Lyquidity.UtilityLibrary.Controls.enumRulerAlignment.raBottomOrRight;
 			this.rulerControlX.ScaleMode = Lyquidity.UtilityLibrary.Controls.enumScaleMode.smPoints;
-			this.rulerControlX.Size = new System.Drawing.Size(636, 26);
+			this.rulerControlX.Size = new System.Drawing.Size(640, 26);
 			this.rulerControlX.StartValue = 0D;
 			this.rulerControlX.TabIndex = 0;
 			this.rulerControlX.Text = "rulerControlX";
@@ -215,6 +219,39 @@
 			this.buttonPrint.Text = "Print";
 			this.buttonPrint.UseVisualStyleBackColor = true;
 			// 
+			// splitContainer2
+			// 
+			this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer2.Name = "splitContainer2";
+			this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// splitContainer2.Panel1
+			// 
+			this.splitContainer2.Panel1.Controls.Add(this.graphPanel);
+			this.splitContainer2.Panel1.Controls.Add(this.rulerControlY);
+			this.splitContainer2.Panel1.Controls.Add(this.rulerControlX);
+			// 
+			// splitContainer2.Panel2
+			// 
+			this.splitContainer2.Panel2.Controls.Add(this.GCodeWindow);
+			this.splitContainer2.Size = new System.Drawing.Size(665, 600);
+			this.splitContainer2.SplitterDistance = 451;
+			this.splitContainer2.TabIndex = 2;
+			// 
+			// GCodeWindow
+			// 
+			this.GCodeWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.GCodeWindow.Location = new System.Drawing.Point(3, 3);
+			this.GCodeWindow.Name = "GCodeWindow";
+			this.GCodeWindow.Size = new System.Drawing.Size(662, 139);
+			this.GCodeWindow.TabIndex = 0;
+			this.GCodeWindow.Text = "";
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -236,6 +273,10 @@
 			this.splitContainer1.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
+			this.splitContainer2.Panel1.ResumeLayout(false);
+			this.splitContainer2.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+			this.splitContainer2.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -256,6 +297,8 @@
 		private System.Windows.Forms.ListBox listBoxConnect;
 		private System.Windows.Forms.Button buttonConnect;
 		private System.Windows.Forms.Button buttonPrint;
+		private System.Windows.Forms.SplitContainer splitContainer2;
+		private System.Windows.Forms.RichTextBox GCodeWindow;
     }
 }
 

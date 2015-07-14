@@ -111,65 +111,43 @@ namespace K40Controller
 
 			bool inPath = false;
 			Path currentPath = new Path();
+			Command lastCom = new Command();
 
 			foreach( Command com in commands )
 			{
 				{
 					if( com.type == 'G' )
 					{
-						// Move
-						if( com.code == 0 )
+						switch (com.code)
 						{
-							if( inPath )
-							{
-								currentPath.End();
-								paths.Add( currentPath );
-								currentPath = new Path();
-							}
-							currentPath.Add( com );
-							inPath = false;
-						}
+							case 0:	// MOVE
+								if (inPath)
+								{
+									currentPath.End();
+									paths.Add(currentPath);
+									currentPath = new Path(lastcom);
+								}
+								currentPath.Add(com);
+								inPath = false;
+								break;
 
-						// Move cut line
-						if( com.code == 1 )
-						{
-							if( !inPath )
-							{
-								currentPath.End();
-								paths.Add( currentPath );
-								currentPath = new Path();
-							}
-							currentPath.Add( com );
-							inPath = true;
-						}
-
-						// Move cut arc CW
-						if( com.code == 2 )
-						{
-							if( !inPath )
-							{
-								currentPath.End();
-								paths.Add( currentPath );
-								currentPath = new Path();
-							}
-							currentPath.Add( com );
-							inPath = true;
-						}
-
-						// Move cut arc CCW
-						if( com.code == 3 )
-						{
-							if( !inPath )
-							{
-								currentPath.End();
-								paths.Add( currentPath );
-								currentPath = new Path();
-							}
-							currentPath.Add( com );
-							inPath = true;
+							case 1:	// MOVE CUT
+							case 2:	// ARC CW CUT
+							case 3:	// ARC CCW CUT
+								if (!inPath)
+								{
+									currentPath.End();
+									paths.Add(currentPath);
+									currentPath = new Path(lastCom);
+								}
+								currentPath.Add(com);
+								inPath = true;
+								break;
 						}
 					}
 				}
+
+				lastCom = new Command(com);
 			}
 
 		}
