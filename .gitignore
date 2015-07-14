@@ -1,6 +1,6 @@
-K40Controller/obj/Debug/K40Controller.pdb
+bin
+obj
 *.exe
 *.pdb
 *.Cache
-*.exe
 *.pdb
