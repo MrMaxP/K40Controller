@@ -96,7 +96,7 @@ namespace K40Controller
 					commands.Add( com );
 					lastCom = com;
 
-					Console.Out.WriteLine( com.ToString() );
+//					Console.Out.WriteLine( com.ToString() );
 				}
 
 				lineNum++;
@@ -109,8 +109,8 @@ namespace K40Controller
 		{
 			// Attempt to group G commands by paths
 
-			bool inPath = false;
-			Path currentPath = new Path();
+			Path.Type type = Path.Type.Move;
+			Path currentPath = new Path(type);
 			Command lastCom = new Command();
 
 			foreach( Command com in commands )
@@ -121,33 +121,55 @@ namespace K40Controller
 						switch (com.code)
 						{
 							case 0:	// MOVE
-								if (inPath)
+								if (type != Path.Type.Move)
 								{
 									currentPath.End();
 									paths.Add(currentPath);
-									currentPath = new Path(lastcom);
+									type = Path.Type.Move;
+									currentPath = new Path(type, lastCom);
 								}
 								currentPath.Add(com);
-								inPath = false;
 								break;
 
 							case 1:	// MOVE CUT
 							case 2:	// ARC CW CUT
 							case 3:	// ARC CCW CUT
-								if (!inPath)
+								if (type != Path.Type.Cut)
 								{
 									currentPath.End();
 									paths.Add(currentPath);
-									currentPath = new Path(lastCom);
+									type = Path.Type.Cut;
+									currentPath = new Path(type, lastCom);
 								}
 								currentPath.Add(com);
-								inPath = true;
+								break;
+
+							case 7:	// RASTER (Check this code)
+								if (type != Path.Type.Raster)
+								{
+									currentPath.End();
+									paths.Add(currentPath);
+									type = Path.Type.Raster;
+									currentPath = new Path(type, lastCom);
+								}
+								currentPath.Add(com);
 								break;
 						}
 					}
 				}
 
 				lastCom = new Command(com);
+			}
+
+
+			// Debug print
+			foreach ( Path path in paths )
+			{
+				string pathText = "Path ";
+				if (path.type == Path.Type.Move) { pathText += "Move:"; }
+				if (path.type == Path.Type.Cut) { pathText += "Cut:"; }
+				if (path.type == Path.Type.Raster) { pathText += "Raster:"; }
+				Console.WriteLine(pathText);
 			}
 
 		}

@@ -8,16 +8,32 @@ namespace K40Controller
 {
 	class Path
 	{
-		Command start;
-		List<Command> path;
-
-		public Path()
+		public enum Type
 		{
+			Move,
+			Cut,
+			Raster
+		};
+
+		public Command start;
+		public List<Command> path;
+		public Type type;
+
+		public Path(Type pathType)
+		{
+			type = pathType;
 			path = new List<Command>();
 			start = new Command();
 		}
 
-		public void Add( Command com )
+		public Path(Type pathType, Command com)
+		{
+			type = pathType;
+			path = new List<Command>();
+			start = new Command(com);
+		}
+
+		public void Add(Command com)
 		{
 			path.Add( com );
 		}
