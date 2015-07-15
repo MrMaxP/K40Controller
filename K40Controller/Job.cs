@@ -16,6 +16,15 @@ namespace K40Controller
 
 	class Job
 	{
+		enum Mode : uint
+		{
+			Raw = 0x00,
+			Paths = 0x01,
+			Inner = 0x02,
+			Nearest = 0x04
+		}
+
+		uint mode = 0;
 		List<string> lines = null;
 		List<Command> commands = null;
 		List<Path> paths = null;
@@ -208,6 +217,8 @@ namespace K40Controller
 			{
 				return;
 			}
+
+			if( mode == Mode.Raw )
 
 			Pen penCut = new Pen( Color.White, 1 );
 			Pen penMove = new Pen( Color.Blue, 1 );
