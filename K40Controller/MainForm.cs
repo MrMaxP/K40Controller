@@ -16,6 +16,7 @@ namespace K40Controller
     {
 		Job job;
 		Comms comms;
+		Draw draw;
 		bool autoconnect;
 		string lastConnectedPort;
 		bool connected = false;
@@ -58,7 +59,7 @@ namespace K40Controller
 		{
 			Graphics dc = e.Graphics;
 			dc.FillRectangle(new SolidBrush(Color.Black), dc.ClipBounds);
-			job.Draw(dc);
+			draw.DrawJob( job, dc );
 			base.OnPaint(e);
 		}
 
