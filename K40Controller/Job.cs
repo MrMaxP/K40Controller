@@ -81,9 +81,9 @@ namespace K40Controller
 
 							case 'G': com.code = (uint)temp; com.type = c; break;
 							case 'M': com.code = (uint)temp; com.type = c; break;
-							case 'X': com.X = temp; break;
-							case 'Y': com.Y = temp; break;
-							case 'Z': com.Z = temp; break;
+							case 'X': com.pos.X = temp; break;
+							case 'Y': com.pos.Y = temp; break;
+							case 'Z': com.pos.Z = temp; break;
 							case 'E': com.E = temp; break;
 							case 'I': com.I = temp; break;
 							case 'J': com.J = temp; break;
@@ -165,7 +165,7 @@ namespace K40Controller
 
 
 			// Debug print
-			foreach ( Path path in paths )
+			foreach (Path path in paths)
 			{
 				string pathText = "Path ";
 				if (path.type == Path.Type.Move) { pathText += "Move:"; }

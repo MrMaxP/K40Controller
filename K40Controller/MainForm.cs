@@ -16,7 +16,7 @@ namespace K40Controller
     {
 		Job job;
 		Comms comms;
-		Draw draw;
+		Draw draw = null;
 		bool autoconnect;
 		string lastConnectedPort;
 		bool connected = false;
@@ -41,6 +41,8 @@ namespace K40Controller
 			foreach( string port in comms.portList )
 			{	listBoxConnect.Items.Add( port );}
 
+			draw = new Draw();
+
 //			if(autoconnect)
 //			{
 //				comms.Connect();
@@ -57,10 +59,13 @@ namespace K40Controller
 
 		private void graphPanel_Paint(object sender, PaintEventArgs e)
 		{
-			Graphics dc = e.Graphics;
-			dc.FillRectangle(new SolidBrush(Color.Black), dc.ClipBounds);
-			draw.DrawJob( job, dc );
-			base.OnPaint(e);
+			if (draw != null)
+			{
+				Graphics dc = e.Graphics;
+				dc.FillRectangle(new SolidBrush(Color.Black), dc.ClipBounds);
+				draw.DrawJob(job, dc);
+				base.OnPaint(e);
+			}
 		}
 
 		private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)

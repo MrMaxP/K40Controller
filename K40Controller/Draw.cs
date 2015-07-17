@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Drawing;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace K40Controller
@@ -21,6 +20,11 @@ namespace K40Controller
 		}
 
 		Mode mode = Mode.Raw;
+
+		Pen penCut = new Pen(Color.White, 1);
+		Pen penLoop = new Pen(Color.Yellow, 1);
+		Pen penMove = new Pen(Color.Blue, 1);
+
 
 		private void DrawLine( Graphics dc, Pen pen, Pos pos1, Pos pos2 )
 		{
@@ -59,6 +63,7 @@ namespace K40Controller
 
 			if( (mode & Mode.Raw) == Mode.Raw )
 			{
+				// Raw is exclusive
 				DrawRaw( job, dc );
 			}
 			else
@@ -69,14 +74,35 @@ namespace K40Controller
 
 		public void DrawPaths( Job job, Graphics dc )
 		{
+			Pos pos = new Pos();
 
+			foreach ( Path path in job.paths )
+			{
+				if (path.type == Path.Type.Move)
+				{
+					DrawPath(job, dc, path);
+				}
+			}
+		}
+
+		public void DrawPath(Job job, Graphics dc, Path path)
+		{
+			Pen pen = null;
+			switch (path.type)
+			{
+				case Path.Type.Move:
+					pen = penMove;
+					break;
+			}
+
+			foreach (Command com in path.commands)
+			{
+
+			}
 		}
 
 		public void DrawRaw( Job job, Graphics dc )
 		{
-			Pen penCut = new Pen( Color.White, 1 );
-			Pen penMove = new Pen( Color.Blue, 1 );
-
 			Pos pos = new Pos();
 
 			foreach( Command com in job.commands )
@@ -87,8 +113,8 @@ namespace K40Controller
 					if( com.code == 0 )
 					{
 						Pos posDest = new Pos();
-						posDest.X = com.X;
-						posDest.Y = com.Y;
+						posDest.X = com.pos.X;
+						posDest.Y = com.pos.Y;
 						if( K40Controller.Properties.Settings.Default.drawMoves )
 						{
 							DrawLine( dc, penMove, pos, posDest );
@@ -100,8 +126,8 @@ namespace K40Controller
 					if( com.code == 1 )
 					{
 						Pos posDest = new Pos();
-						posDest.X = com.X;
-						posDest.Y = com.Y;
+						posDest.X = com.pos.X;
+						posDest.Y = com.pos.Y;
 						if( K40Controller.Properties.Settings.Default.drawCuts )
 						{
 							DrawLine( dc, penCut, pos, posDest );
@@ -113,8 +139,8 @@ namespace K40Controller
 					if( com.code == 2 )
 					{
 						Pos posDest = new Pos();
-						posDest.X = com.X;
-						posDest.Y = com.Y;
+						posDest.X = com.pos.X;
+						posDest.Y = com.pos.Y;
 						if( K40Controller.Properties.Settings.Default.drawCuts )
 						{
 							DrawLine( dc, penCut, pos, posDest );
@@ -126,8 +152,8 @@ namespace K40Controller
 					if( com.code == 3 )
 					{
 						Pos posDest = new Pos();
-						posDest.X = com.X;
-						posDest.Y = com.Y;
+						posDest.X = com.pos.X;
+						posDest.Y = com.pos.Y;
 						if( K40Controller.Properties.Settings.Default.drawCuts )
 						{
 							DrawLine( dc, penCut, posDest, pos );

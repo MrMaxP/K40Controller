@@ -15,32 +15,39 @@ namespace K40Controller
 			Raster
 		};
 
-		public Command start;
-		public List<Command> path;
+		public Coordinates start;
+		public List<Command> commands;
 		public Type type;
+		public bool looped;
 
 		public Path(Type pathType)
 		{
 			type = pathType;
-			path = new List<Command>();
-			start = new Command();
+			commands = new List<Command>();
+			start = new Coordinates();
+			looped = false;
 		}
 
 		public Path(Type pathType, Command com)
 		{
 			type = pathType;
-			path = new List<Command>();
-			start = new Command(com);
+			commands = new List<Command>();
+			start = new Coordinates(com.pos);
+			looped = false;
 		}
 
 		public void Add(Command com)
 		{
-			path.Add( com );
+			commands.Add(com);
 		}
 
 		public void End()
 		{
-
+			Coordinates end = commands[commands.Count-1].pos;
+			if (start.X.Equals(end.X) && start.Y.Equals(end.Y) && start.Z.Equals(end.Z))
+			{
+				looped = true;
+			}
 		}
 	}
 }

@@ -30,6 +30,16 @@ namespace K40Controller
 			return _val.ToString();
 		}
 
+		public bool Equals(Value v)
+		{
+			if ( !v.isSet() || !isSet() )
+			{
+				return false;
+			}
+
+			return _val.Equals(v._val);
+		}
+
 		public static implicit operator Value(double val)
 		{
 			return new Value { _val = val };
@@ -41,15 +51,34 @@ namespace K40Controller
 		}
 	}
 
+	class Coordinates
+	{
+		public Coordinates()
+		{
+			X = new Value();
+			Y = new Value();
+			Z = new Value();
+		}
+
+		public Coordinates(Coordinates clone)
+		{
+			X = new Value(clone.X);
+			Y = new Value(clone.Y);
+			Z = new Value(clone.Z);
+		}
+
+		public Value X;
+		public Value Y;
+		public Value Z;
+	}
+
 	class Command
 	{
 		public uint block;
 		public uint line;
 		public char type;
 		public uint code;
-		public Value X;
-		public Value Y;
-		public Value Z;
+		public Coordinates pos;
 		public Value E;
 		public Value I;
 		public Value J;
@@ -65,9 +94,7 @@ namespace K40Controller
 			code = uint.MaxValue;
 			block = uint.MaxValue;
 
-			X = new Value();
-			Y = new Value();
-			Z = new Value();
+			pos = new Coordinates();
 			E = new Value();
 			I = new Value();
 			J = new Value();
@@ -84,9 +111,7 @@ namespace K40Controller
 			code = clone.code;
 			block = clone.block;
 
-			X = new Value(clone.X);
-			Y = new Value(clone.Y);
-			Z = new Value(clone.Z);
+			pos = new Coordinates(clone.pos);
 			E = new Value(clone.E);
 			I = new Value(clone.I);
 			J = new Value(clone.J);
@@ -109,9 +134,9 @@ namespace K40Controller
 			s += type + code.ToString();
 
 			s += " { ";
-			if (X.isSet()) { s += "X" + X.ToString() + " "; }
-			if (Y.isSet()) { s += "Y" + Y.ToString() + " "; }
-			if (Z.isSet()) { s += "Z" + Z.ToString() + " "; }
+			if (pos.X.isSet()) { s += "X" + pos.X.ToString() + " "; }
+			if (pos.Y.isSet()) { s += "Y" + pos.Y.ToString() + " "; }
+			if (pos.Z.isSet()) { s += "Z" + pos.Z.ToString() + " "; }
 			if (E.isSet()) { s += "E" + E.ToString() + " "; }
 			if (I.isSet()) { s += "I" + I.ToString() + " "; }
 			if (J.isSet()) { s += "J" + J.ToString() + " "; }
