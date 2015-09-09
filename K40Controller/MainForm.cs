@@ -37,9 +37,9 @@ namespace K40Controller
 			comms = new Comms( new SerialOutput( OutputConsole ) );
 			comms.Enumerate();
 
-			listBoxConnect.Items.Clear();
+			comboBoxConnect.Items.Clear();
 			foreach( string port in comms.portList )
-			{	listBoxConnect.Items.Add( port );}
+			{	comboBoxConnect.Items.Add( port );}
 
 			draw = new Draw();
 
@@ -107,9 +107,9 @@ namespace K40Controller
 		{
 			if( !connected )
 			{
-				if( comms.Connect( listBoxConnect.Items[ listBoxConnect.TopIndex ].ToString() ) )
+				if( comms.Connect( comboBoxConnect.Items[ 0 ].ToString() ) )
 				{
-					lastConnectedPort = listBoxConnect.Items[ listBoxConnect.TopIndex ].ToString();
+					lastConnectedPort = comboBoxConnect.Items[ 0 ].ToString();
 					connected = true;
 					buttonConnect.Text = "Disconnect";
 				}

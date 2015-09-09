@@ -104,7 +104,10 @@ namespace K40Controller
 				lineNum++;
 			}
 
-			Group();
+			if(Settings.GroupOnLoad)
+			{	
+				Group();
+			}
 		}
 
 		private void Group()

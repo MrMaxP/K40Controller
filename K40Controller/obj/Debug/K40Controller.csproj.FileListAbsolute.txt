@@ -1,11 +1,11 @@
 C:\Users\Stuart\Documents\GitHub\K40Controller\K40Controller\bin\Debug\K40Controller.exe.config
+C:\Users\Stuart\Documents\GitHub\K40Controller\K40Controller\obj\Debug\K40Controller.exe
+C:\Users\Stuart\Documents\GitHub\K40Controller\K40Controller\obj\Debug\K40Controller.pdb
 C:\Users\Stuart\Documents\GitHub\K40Controller\K40Controller\bin\Debug\K40Controller.exe
 C:\Users\Stuart\Documents\GitHub\K40Controller\K40Controller\bin\Debug\K40Controller.pdb
+C:\Users\Stuart\Documents\GitHub\K40Controller\K40Controller\bin\Debug\RulerControl.dll
+C:\Users\Stuart\Documents\GitHub\K40Controller\K40Controller\bin\Debug\RulerControl.pdb
 C:\Users\Stuart\Documents\GitHub\K40Controller\K40Controller\obj\Debug\K40Controller.csprojResolveAssemblyReference.cache
 C:\Users\Stuart\Documents\GitHub\K40Controller\K40Controller\obj\Debug\K40Controller.MainForm.resources
 C:\Users\Stuart\Documents\GitHub\K40Controller\K40Controller\obj\Debug\K40Controller.Properties.Resources.resources
 C:\Users\Stuart\Documents\GitHub\K40Controller\K40Controller\obj\Debug\K40Controller.csproj.GenerateResource.Cache
-C:\Users\Stuart\Documents\GitHub\K40Controller\K40Controller\obj\Debug\K40Controller.exe
-C:\Users\Stuart\Documents\GitHub\K40Controller\K40Controller\obj\Debug\K40Controller.pdb
-C:\Users\Stuart\Documents\GitHub\K40Controller\K40Controller\bin\Debug\RulerControl.dll
-C:\Users\Stuart\Documents\GitHub\K40Controller\K40Controller\bin\Debug\RulerControl.pdb

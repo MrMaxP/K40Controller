@@ -9,5 +9,6 @@ namespace K40Controller
 	class Settings
 	{
 		public static double Scale = 5.0;
+		public static bool GroupOnLoad = false;
 	}
 }
